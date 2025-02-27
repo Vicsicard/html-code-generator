@@ -62,6 +62,32 @@ export default function AuthPage() {
     }
   }
 
+  // Add test login functionality for development
+  const handleTestLogin = async (e) => {
+    e.preventDefault()
+    setLoading(true)
+    setError('')
+    
+    try {
+      // Use the same test credentials that worked in the test-login page
+      const result = await signIn('test@example.com', 'Test123456!')
+      console.log('Test login result:', result)
+      
+      if (!result.success) {
+        console.error('Test login failed:', result.error)
+        throw new Error(result.error?.message || 'Test authentication failed')
+      }
+      
+      // Navigate to workspace on success
+      router.push('/workspace')
+    } catch (err) {
+      console.error('Test login error:', err)
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-4">
       <div className="bg-[#1E4B8F] w-full max-w-md p-8 rounded-lg shadow-xl">
@@ -120,6 +146,15 @@ export default function AuthPage() {
             {loading ? 'Processing...' : isLogin ? 'Log In' : 'Sign Up'}
           </button>
         </form>
+        
+        {/* Quick test login button */}
+        <button
+          type="button"
+          onClick={handleTestLogin}
+          className="text-gray-400 text-sm hover:text-white"
+        >
+          Use Test Login
+        </button>
         
         <div className="mt-4">
           <button
