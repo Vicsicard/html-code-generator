@@ -11,6 +11,7 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@stripe/stripe-js": "^5.7.0",
+    "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "^2.49.1",
     "autoprefixer": "10.4.20",
@@ -25,7 +26,8 @@
     "react": "18.2.0",
     "react-codemirror2": "^8.0.1",
     "react-dom": "18.2.0",
-    "react-hook-form": "^7.54.2"
+    "react-hook-form": "^7.54.2",
+    "stripe": "^17.7.0"
   },
   "devDependencies": {
     "@types/node": "22.10.2",

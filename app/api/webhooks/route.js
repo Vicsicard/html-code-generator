@@ -7,8 +7,9 @@ const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 // Initialize Supabase server client (not using auth helpers since this is a webhook)
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-const supabase = createClient(supabaseUrl, supabaseServiceKey)
+// Fallback to anon key if service role key is not available
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 export async function POST(req) {
   try {
