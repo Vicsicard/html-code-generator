@@ -19,6 +19,7 @@
 - **Live Preview**: Instantly see how your code looks with real-time preview.
 - **Code Editor**: Edit the generated code directly in the browser.
 - **User Authentication**: Sign up and log in with email/password or Google account.
+- **Vercel Deployment**: Optimized for deployment on Vercel with both App Router and Pages Router support.
 - **Subscription Management**: Choose between a free 1-hour trial or a paid subscription ($19.99/month).
 
 ## Technologies Used
