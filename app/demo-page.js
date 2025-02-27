@@ -1,21 +1,8 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useAuth } from '../contexts/authContext'
 import Link from 'next/link'
 
-export default function Home() {
-  const { user, loading, envVarsReady } = useAuth()
-  const router = useRouter()
-
-  // If user is already logged in, redirect to workspace
-  useEffect(() => {
-    if (!loading && user && envVarsReady) {
-      router.push('/workspace')
-    }
-  }, [user, loading, router, envVarsReady])
-
+export default function DemoHome() {
   return (
     <div className="min-h-screen bg-[#0C2340] text-white">
       {/* Hero Section */}
