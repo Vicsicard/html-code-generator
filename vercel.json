@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/" }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/", "dest": "/index.html" },
+    { "src": "/(.*)", "dest": "/app/$1" }
+  ]
+}
