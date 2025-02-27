@@ -1,18 +1,4 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-
 export default function Home() {
-  const [loading, setLoading] = useState(true)
-  const router = useRouter()
-
-  // Simple loading effect to ensure client hydration
-  useEffect(() => {
-    setLoading(false)
-  }, [])
-
   return (
     <div className="min-h-screen bg-[#0C2340] text-white">
       {/* Hero Section */}
@@ -23,18 +9,18 @@ export default function Home() {
         </p>
         
         <div className="flex flex-col md:flex-row gap-4">
-          <Link
+          <a
             href="/auth"
             className="bg-[#F47920] text-white px-8 py-3 rounded-lg text-lg font-bold uppercase hover:bg-[#D96510] transition-all"
           >
             Get Started
-          </Link>
-          <Link
+          </a>
+          <a
             href="/pricing"
             className="bg-white text-[#0C2340] px-8 py-3 rounded-lg text-lg font-bold uppercase hover:bg-gray-100 transition-all"
           >
             View Pricing
-          </Link>
+          </a>
         </div>
       </div>
 
