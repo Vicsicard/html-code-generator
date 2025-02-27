@@ -5,13 +5,24 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@supabase/supabase-js'
 
 // Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key'
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
-// Create a Supabase client only if the environment variables are set to real values (not placeholders)
-const supabase = (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) 
-  ? createClient(supabaseUrl, supabaseKey) 
-  : null
+// Create a Supabase client with proper error handling
+let supabase = null
+try {
+  if (supabaseUrl && supabaseKey) {
+    supabase = createClient(supabaseUrl, supabaseKey)
+    console.log('Supabase client initialized with URL:', supabaseUrl)
+  } else {
+    console.warn('Missing Supabase credentials:', { 
+      hasUrl: !!supabaseUrl, 
+      hasKey: !!supabaseKey 
+    })
+  }
+} catch (error) {
+  console.error('Error initializing Supabase client:', error)
+}
 
 // Create auth context
 const AuthContext = createContext()
