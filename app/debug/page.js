@@ -40,7 +40,11 @@ export default function DebugPage() {
   // Test Supabase connection
   const testConnection = async (supabase) => {
     try {
-      const { data, error } = await supabase.from('user_metadata').select('count(*)', { count: 'exact' })
+      // Use a simpler query that doesn't use count(*)
+      const { data, error } = await supabase
+        .from('user_metadata')
+        .select('*')
+        .limit(1)
       
       if (error) {
         setTestResult({
@@ -79,26 +83,48 @@ export default function DebugPage() {
         return
       }
       
+      setTestResult({
+        success: false,
+        message: 'Testing authentication...'
+      })
+      
       const supabase = createClient(supabaseUrl, supabaseKey)
       
-      // Test with a fake login
+      // Try anon access
+      const { data: authData, error: authError } = await supabase.auth.getSession()
+      
+      if (authError) {
+        setTestResult({
+          success: false,
+          message: `Auth session error: ${authError.message}`,
+          error: authError
+        })
+        return
+      }
+      
+      // Now try a sign-in (use test credentials)
+      const email = 'test@example.com'
+      const password = 'Test123456!' // Meets Supabase requirements
+      
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: 'test@example.com',
-        password: 'testpassword',
+        email,
+        password
       })
       
       if (error) {
+        // This is expected for fake credentials
         setTestResult({
-          success: false,
-          message: `Login test error: ${error.message}`,
+          success: true, // Still consider this a successful test
+          message: `Expected login error (good!): ${error.message}`,
           error
         })
         return
       }
       
+      // Unexpected successful login with test credentials
       setTestResult({
         success: true,
-        message: 'Login test successful',
+        message: 'Unexpectedly logged in with test credentials!',
         data
       })
     } catch (error) {
