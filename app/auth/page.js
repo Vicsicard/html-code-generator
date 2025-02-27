@@ -19,21 +19,27 @@ export default function AuthPage() {
     setError('')
     
     try {
+      console.log('Attempting authentication with:', { email: data.email, passwordLength: data.password?.length })
+      
       let result
       
       if (isLogin) {
         result = await signIn(data.email, data.password)
+        console.log('Login result:', result)
       } else {
         result = await signUp(data.email, data.password)
+        console.log('Signup result:', result)
       }
       
       if (!result.success) {
-        throw new Error(result.error.message || 'Authentication failed')
+        console.error('Auth failed:', result.error)
+        throw new Error(result.error?.message || 'Authentication failed')
       }
       
       // Navigate to workspace on success
       router.push('/workspace')
     } catch (err) {
+      console.error('Auth error:', err)
       setError(err.message)
     } finally {
       setLoading(false)

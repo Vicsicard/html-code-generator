@@ -103,25 +103,42 @@ export function AuthProvider({ children }) {
   const signIn = async (email, password) => {
     if (!supabase) {
       console.error('Supabase client not initialized. Check your environment variables.')
-      return { error: 'Supabase client not initialized' }
+      return { success: false, error: { message: 'Supabase client not initialized' } }
     }
     
     try {
+      console.log('Starting signInWithPassword for email:', email)
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       })
       
-      if (error) throw error
+      if (error) {
+        console.error('Supabase auth error:', error)
+        throw error
+      }
       
-      // Store login timestamp
-      await supabase.from('user_metadata').upsert({
-        user_id: data.user.id,
-        login_timestamp: new Date().toISOString(),
-      })
+      console.log('Login successful for user:', data?.user?.email)
+      
+      try {
+        // Store login timestamp
+        const metadataResult = await supabase.from('user_metadata').upsert({
+          user_id: data.user.id,
+          login_timestamp: new Date().toISOString(),
+        })
+        
+        if (metadataResult.error) {
+          console.warn('Could not update login timestamp:', metadataResult.error)
+        }
+      } catch (metadataError) {
+        console.warn('Error updating metadata:', metadataError)
+        // Continue with login even if metadata update fails
+      }
       
       return { success: true, data }
     } catch (error) {
+      console.error('Login error:', error)
       return { success: false, error }
     }
   }
