@@ -5,72 +5,164 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Code Creator</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        *, *::before, *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            background-color: #0C2340;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
             color: white;
-        }
-        .container {
+            background-color: #0C2340;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 1rem;
         }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        header {
+            text-align: center;
+            padding: 4rem 0;
+        }
+        
         h1 {
             font-size: 3rem;
             margin-bottom: 1rem;
         }
-        p {
-            font-size: 1.2rem;
-            max-width: 600px;
+        
+        .subtitle {
+            font-size: 1.5rem;
             margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
+        
         .buttons {
             display: flex;
             flex-direction: column;
             gap: 1rem;
+            max-width: 400px;
+            margin: 0 auto;
         }
-        .button {
-            padding: 0.8rem 2rem;
-            border-radius: 0.5rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .primary {
-            background-color: #F47920;
-            color: white;
-        }
-        .secondary {
-            background-color: white;
-            color: #0C2340;
-        }
-        .button:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-        }
+        
         @media (min-width: 768px) {
             .buttons {
                 flex-direction: row;
+                justify-content: center;
             }
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: #F47920;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: #0C2340;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .features {
+            padding: 4rem 0;
+        }
+        
+        .features-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        .feature-card {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        
+        .feature-title {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>HTML Code Creator</h1>
-        <p>Effortlessly create beautiful, responsive HTML code with the power of AI</p>
+        <header>
+            <h1>HTML Code Creator</h1>
+            <p class="subtitle">Effortlessly create beautiful, responsive HTML code with the power of AI</p>
+            
+            <div class="buttons">
+                <a href="#" class="btn btn-primary" id="getStartedBtn">Get Started</a>
+                <a href="#" class="btn btn-secondary" id="pricingBtn">View Pricing</a>
+            </div>
+        </header>
         
-        <div class="buttons">
-            <a href="/app/auth" class="button primary">Get Started</a>
-            <a href="/app/pricing" class="button secondary">View Pricing</a>
-        </div>
+        <section class="features">
+            <h2 class="features-title">Key Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3 class="feature-title">AI-Powered Generation</h3>
+                    <p>Describe what you want, and our AI will generate clean, responsive HTML code in seconds.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title">Real-time Preview</h3>
+                    <p>See your HTML render in real-time as you make changes to the code.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3 class="feature-title">Export & Share</h3>
+                    <p>Easily export your HTML or share it with others with a single click.</p>
+                </div>
+            </div>
+        </section>
     </div>
+
+    <script>
+        document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('This is a static demo page. The authentication feature would normally redirect to the login/signup page.');
+        });
+        
+        document.getElementById('pricingBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('This is a static demo page. The pricing feature would normally show subscription options.');
+        });
+    </script>
 </body>
 </html>
