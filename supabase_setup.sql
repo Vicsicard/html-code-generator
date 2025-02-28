@@ -1,7 +1,7 @@
 -- COMPLETE SUPABASE SETUP FOR HTML CODE CREATOR
 -- Run this SQL in the Supabase SQL Editor
 
--- 1. SETUP USER METADATA TABLE
+-- SETUP USER METADATA TABLE
 -- This table stores additional information about users
 CREATE TABLE IF NOT EXISTS public.user_metadata (
   id BIGSERIAL PRIMARY KEY,
@@ -19,21 +19,24 @@ ALTER TABLE public.user_metadata ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for user_metadata table
 -- Users can view only their own data
+DROP POLICY IF EXISTS "Users can view their own metadata" ON public.user_metadata;
 CREATE POLICY "Users can view their own metadata" 
   ON public.user_metadata 
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can update only their own data
+DROP POLICY IF EXISTS "Users can update their own metadata" ON public.user_metadata;
 CREATE POLICY "Users can update their own metadata" 
   ON public.user_metadata 
   FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can insert only their own data
+DROP POLICY IF EXISTS "Users can insert their own metadata" ON public.user_metadata;
 CREATE POLICY "Users can insert their own metadata" 
   ON public.user_metadata 
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- 2. SETUP USER CREDITS TABLE
+-- SETUP USER CREDITS TABLE
 -- This table tracks usage credits for generating HTML
 CREATE TABLE IF NOT EXISTS public.user_credits (
   id BIGSERIAL PRIMARY KEY,
@@ -50,21 +53,24 @@ ALTER TABLE public.user_credits ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for user_credits table
 -- Users can view only their own credits
+DROP POLICY IF EXISTS "Users can view their own credits" ON public.user_credits;
 CREATE POLICY "Users can view their own credits"
   ON public.user_credits
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can update only their own credits (usually handled by server functions)
+DROP POLICY IF EXISTS "Users can update their own credits" ON public.user_credits;
 CREATE POLICY "Users can update their own credits"
   ON public.user_credits
   FOR UPDATE USING (auth.uid() = user_id);
 
 -- Users can insert only their own credit records
+DROP POLICY IF EXISTS "Users can insert their own credit records" ON public.user_credits;
 CREATE POLICY "Users can insert their own credit records"
   ON public.user_credits
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- 3. SETUP GENERATION HISTORY TABLE
+-- SETUP GENERATION HISTORY TABLE
 -- This table stores history of HTML generations
 CREATE TABLE IF NOT EXISTS public.generation_history (
   id BIGSERIAL PRIMARY KEY,
@@ -80,16 +86,18 @@ ALTER TABLE public.generation_history ENABLE ROW LEVEL SECURITY;
 
 -- Create policies for generation_history table
 -- Users can view only their own history
+DROP POLICY IF EXISTS "Users can view their own history" ON public.generation_history;
 CREATE POLICY "Users can view their own history"
   ON public.generation_history
   FOR SELECT USING (auth.uid() = user_id);
 
 -- Users can insert their own history records
+DROP POLICY IF EXISTS "Users can insert their own history" ON public.generation_history;
 CREATE POLICY "Users can insert their own history"
   ON public.generation_history
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
--- 4. CREATE FUNCTIONS FOR USER MANAGEMENT
+-- CREATE FUNCTIONS FOR USER MANAGEMENT
 
 -- Function to handle new user signup
 -- This automatically creates entries in user_metadata and user_credits
@@ -142,7 +150,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 5. CREATE TEST USER
+-- CREATE TEST USER
 -- This will create a user with email test@example.com and password Test123456!
 -- If the user already exists, this won't create a duplicate
 
@@ -181,7 +189,7 @@ BEGIN
   END IF;
 END $$;
 
--- 6. VERIFY SETUP
+-- VERIFY SETUP
 -- This query checks if everything is set up correctly
 SELECT 
   (SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'user_metadata') AS user_metadata_exists,
